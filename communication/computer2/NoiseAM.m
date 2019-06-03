@@ -1,0 +1,20 @@
+clear,clc,close all;
+f0=1;
+f1=10;
+Fs=100;
+T=10;
+t=0:1/Fs:10;
+db=10*log10(1+10);
+st=sqrt(2)*cos(f0*2*pi*t);
+gt=cos(f1*2*pi*t);
+fam=(st+2).*gt;
+dw=0.01*pi;
+w=0:dw:2*pi*15;
+P=sig_spec_w(fam,t,1/Fs,w);
+f=fam+awgn(fam,db);
+out=abs(hilbert(f))-2*sqrt(2);
+plot(t,out);
+hold on
+plot(t,st);
+title('加噪后AM解调信号和原信号');
+legend('解调后的信号','原信号');
